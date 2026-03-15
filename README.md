@@ -9,8 +9,7 @@ Deploy flow:
 Suggested commands:
 
 ```bash
-npm run build
-node worker/copy-build.mjs
+npm run prepare:worker
 wrangler deploy
 ```
 
@@ -19,6 +18,8 @@ Compatibility paths kept for existing installs:
 - `/dist/zbt.min.js`
 - `/loader.js`
 - `/zbt-loader.js`
+
+`/zbt-loader.js` is intended to be the preferred bootstrap endpoint for new installs.
 
 Embed snippet:
 

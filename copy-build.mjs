@@ -4,13 +4,23 @@ import { fileURLToPath } from "node:url";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(currentDir, "..");
+const distDir = path.join(rootDir, "dist");
+const umdSource = path.join(distDir, "zbt-accessibility.umd.js");
+const legacySource = path.join(distDir, "zbt.min.js");
+
+if (!fs.existsSync(umdSource) || !fs.existsSync(legacySource)) {
+  throw new Error(
+    "Missing build artifacts. Run `npm run build` before `npm run build:worker`."
+  );
+}
+
 const filesToCopy = [
   {
-    source: path.join(rootDir, "dist", "zbt-accessibility.umd.js"),
+    source: umdSource,
     target: path.join(rootDir, "worker", "public", "assets", "zbt-accessibility.umd.js")
   },
   {
-    source: path.join(rootDir, "dist", "zbt.min.js"),
+    source: legacySource,
     target: path.join(rootDir, "worker", "public", "dist", "zbt.min.js")
   }
 ];
