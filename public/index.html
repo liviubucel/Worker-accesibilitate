@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZebraByte Accessibility Widget Demo</title>
+    <meta
+        name="description"
+        content="Simple live demo page for the ZebraByte Accessibility Widget."
+    >
+    <style>
+        :root {
+            --text: #23262d;
+            --muted: #555f70;
+            --line: #e5e7eb;
+            --blue: #273cff;
+            --bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        a {
+            color: var(--blue);
+        }
+
+        a:hover {
+            color: #1b2dc7;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #ffbf47;
+            outline-offset: 3px;
+        }
+
+        .topbar {
+            border-bottom: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .topbar-inner {
+            width: min(1060px, calc(100vw - 40px));
+            margin: 0 auto;
+            padding: 18px 0;
+        }
+
+        .brand {
+            display: block;
+            width: 170px;
+            height: auto;
+        }
+
+        .page {
+            width: min(1060px, calc(100vw - 40px));
+            margin: 0 auto;
+            padding: 66px 0 120px;
+        }
+
+        .hero {
+            min-height: 470px;
+            padding: 8px 0 24px;
+        }
+
+        h1 {
+            margin: 0 0 26px;
+            font-size: clamp(2.2rem, 4vw, 3.9rem);
+            line-height: 1.04;
+            letter-spacing: -0.03em;
+        }
+
+        .widget-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.12;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 4px;
+        }
+
+        .feature-list {
+            margin: 0;
+            padding-left: 30px;
+            max-width: 720px;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--muted);
+        }
+
+        .feature-list strong {
+            color: var(--text);
+        }
+
+        .note {
+            margin-top: 34px;
+            max-width: 680px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .bottom-bar {
+            border-top: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .bottom-bar-inner {
+            width: min(1060px, calc(100vw - 40px));
+            margin: 0 auto;
+            min-height: 86px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        .consent-checkbox {
+            width: 16px;
+            height: 16px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .support-sections {
+            width: min(1060px, calc(100vw - 40px));
+            margin: 0 auto;
+            padding-bottom: 60px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .support-card {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 18px;
+            background: #fafafa;
+        }
+
+        .support-card h2 {
+            margin: 0 0 8px;
+            font-size: 1.15rem;
+        }
+
+        .support-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .runtime-status {
+            width: min(1060px, calc(100vw - 40px));
+            margin: 20px auto 0;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .runtime-status.is-success {
+            display: block;
+            border-color: #c8ead6;
+            background: #edf9f1;
+            color: #155d31;
+        }
+
+        .runtime-status.is-error {
+            display: block;
+            border-color: #f2c7c7;
+            background: #fff1f1;
+            color: #8c2323;
+        }
+
+        @media (max-width: 720px) {
+            .page {
+                padding-top: 44px;
+            }
+
+            .hero {
+                min-height: 340px;
+            }
+
+            .widget-link {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <img
+                class="brand"
+                src="https://static.zebrabyte.ro/web/image/website/1/logo/ZEBRABYTE%20%7C%20CyberSecurity%20%7C%20IT%20Solutions"
+                alt="ZebraByte logo"
+            >
+        </div>
+    </header>
+
+    <main class="page">
+        <section class="hero" aria-labelledby="widgets-title">
+            <h1 id="widgets-title">All Widgets</h1>
+
+            <a class="widget-link" href="#statement">ZebraByte - Free Accessibility Widget</a>
+
+            <ul class="feature-list">
+                <li>Forever Free</li>
+                <li>Installation with a single line of code</li>
+                <li>Works for popular site builders such as Squarespace, Wix, and Weebly</li>
+                <li><strong>No registration needed</strong> and 100% free of any tracking</li>
+            </ul>
+
+            <p class="note">
+                This page is intentionally simple. The point of the demo is the widget itself:
+                click the accessibility button in the bottom-left corner and test the live menu,
+                contrast controls, reading helpers, and keyboard interaction on a minimal page.
+            </p>
+        </section>
+    </main>
+
+    <footer class="bottom-bar">
+        <div class="bottom-bar-inner">
+            <input class="consent-checkbox" id="consent" type="checkbox" checked>
+            <label for="consent">Consent Preferences</label>
+        </div>
+    </footer>
+
+    <div class="runtime-status" id="runtime-status" role="status" aria-live="polite"></div>
+
+    <section class="support-sections">
+        <article class="support-card" id="statement">
+            <h2>Accessibility statement</h2>
+            <p>
+                This demo page exists to show the widget live. In production, this section can be replaced
+                by the customer&apos;s formal accessibility statement.
+            </p>
+        </article>
+
+        <article class="support-card" id="feedback">
+            <h2>Accessibility feedback</h2>
+            <p>
+                In production, customers can point the widget to their own issue-reporting page by using
+                the feedback URL attribute on the public loader script.
+            </p>
+        </article>
+    </section>
+
+    <script>
+        (function () {
+            var status = document.getElementById("runtime-status");
+            var resolved = false;
+
+            function setStatus(type, message) {
+                if (!status) {
+                    return;
+                }
+
+                status.className = "runtime-status " + type;
+                status.textContent = message;
+            }
+
+            window.addEventListener("zbt-widget-loaded", function (event) {
+                resolved = true;
+                var src = event.detail && event.detail.src ? event.detail.src : "widget bundle";
+                setStatus("is-success", "Widget loaded successfully from " + src);
+            });
+
+            window.addEventListener("zbt-widget-load-error", function (event) {
+                resolved = true;
+                var attempted = event.detail && event.detail.attempted ? event.detail.attempted.join(", ") : "no paths";
+                setStatus("is-error", "Widget failed to load. Deploy is missing bundle assets. Checked: " + attempted);
+            });
+
+            window.setTimeout(function () {
+                if (!resolved && !document.querySelector(".asw-menu-btn")) {
+                    setStatus("is-error", "Widget did not initialize. Most likely the Worker was deployed without the built files from npm run prepare:worker.");
+                }
+            }, 3000);
+        })();
+    </script>
+
+    <script
+        src="/loader.js"
+        data-asw-position="bottom-left"
+        data-asw-offset="24,24"
+        data-asw-statement-url="/#statement"
+        data-asw-feedback-url="/#feedback"
+        defer
+    ></script>
+</body>
+</html>

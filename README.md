@@ -3,7 +3,7 @@
 Deploy flow:
 
 1. Run the widget build in the project root.
-2. Copy the generated `dist/zbt-accessibility.umd.js` into `worker/public/assets/`.
+2. Copy the generated `dist/zbt-accessibility.umd.js` and `dist/zbt.min.js` into `worker/public/`.
 3. Deploy the Worker with static assets.
 
 Suggested commands:
@@ -20,6 +20,8 @@ Compatibility paths kept for existing installs:
 - `/zbt-loader.js`
 
 `/zbt-loader.js` is intended to be the preferred bootstrap endpoint for new installs.
+
+If `worker/public/index.html` exists, opening the domain root will show the live demo page.
 
 Embed snippet:
 

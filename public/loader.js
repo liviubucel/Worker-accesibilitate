@@ -7,8 +7,17 @@
   ];
   var loaded = false;
 
+  function emit(name, detail) {
+    if (typeof window.CustomEvent === "function") {
+      window.dispatchEvent(new CustomEvent(name, { detail: detail }));
+    }
+  }
+
   function loadBundle(index) {
     if (loaded || index >= bundleCandidates.length) {
+      if (!loaded) {
+        emit("zbt-widget-load-error", { attempted: bundleCandidates.slice() });
+      }
       return;
     }
 
@@ -27,6 +36,7 @@
 
     widgetScript.onload = function () {
       loaded = true;
+      emit("zbt-widget-loaded", { src: widgetScript.src });
     };
 
     widgetScript.onerror = function () {
