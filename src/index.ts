@@ -2,6 +2,8 @@ export interface Env {
     ASSETS: Fetcher;
 }
 
+const LEGACY_WIDGET_URL = "https://accesibilitate.zebrabyte.ro/dist/zbt.min.js";
+
 const SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -32,7 +34,29 @@ export default {
             );
         }
 
-        const response = await env.ASSETS.fetch(request);
+        let response = await env.ASSETS.fetch(request);
+        const isWidgetBundlePath =
+            url.pathname === "/assets/zbt-accessibility.umd.js" ||
+            url.pathname === "/dist/zbt.min.js";
+
+        // If static assets were not uploaded in this deploy, fallback to legacy hosted bundle.
+        if (isWidgetBundlePath && response.status === 404) {
+            try {
+                response = await fetch(LEGACY_WIDGET_URL, {
+                    headers: {
+                        "Accept": "application/javascript"
+                    }
+                });
+            } catch {
+                response = new Response("Legacy widget fallback failed.", {
+                    status: 502,
+                    headers: {
+                        "content-type": "text/plain; charset=utf-8"
+                    }
+                });
+            }
+        }
+
         const securedResponse = withSecurityHeaders(response);
         const headers = new Headers(securedResponse.headers);
 
@@ -42,6 +66,7 @@ export default {
             url.pathname === "/dist/zbt.min.js" ||
             url.pathname === "/assets/zbt-accessibility.umd.js"
         ) {
+            headers.set("Content-Type", "application/javascript; charset=utf-8");
             headers.set("Cache-Control", "public, max-age=300, stale-while-revalidate=86400");
         } else if (headers.get("content-type")?.includes("javascript")) {
             headers.set("Cache-Control", "public, max-age=31536000, immutable");
