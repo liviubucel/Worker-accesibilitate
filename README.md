@@ -14,11 +14,17 @@ node worker/copy-build.mjs
 wrangler deploy
 ```
 
+Compatibility paths kept for existing installs:
+
+- `/dist/zbt.min.js`
+- `/loader.js`
+- `/zbt-loader.js`
+
 Embed snippet:
 
 ```html
 <script
-  src="https://YOUR-WORKER-DOMAIN/loader.js"
+  src="https://YOUR-WORKER-DOMAIN/zbt-loader.js"
   data-asw-position="bottom-right"
   data-asw-offset="24,24"
   data-asw-statement-url="https://example.com/accessibility"

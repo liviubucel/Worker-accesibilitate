@@ -4,11 +4,19 @@ import { fileURLToPath } from "node:url";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(currentDir, "..");
-const sourceFile = path.join(rootDir, "dist", "zbt-accessibility.umd.js");
-const targetDir = path.join(rootDir, "worker", "public", "assets");
-const targetFile = path.join(targetDir, "zbt-accessibility.umd.js");
+const filesToCopy = [
+  {
+    source: path.join(rootDir, "dist", "zbt-accessibility.umd.js"),
+    target: path.join(rootDir, "worker", "public", "assets", "zbt-accessibility.umd.js")
+  },
+  {
+    source: path.join(rootDir, "dist", "zbt.min.js"),
+    target: path.join(rootDir, "worker", "public", "dist", "zbt.min.js")
+  }
+];
 
-fs.mkdirSync(targetDir, { recursive: true });
-fs.copyFileSync(sourceFile, targetFile);
-
-console.log(`Copied ${sourceFile} to ${targetFile}`);
+filesToCopy.forEach(({ source, target }) => {
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.copyFileSync(source, target);
+  console.log(`Copied ${source} to ${target}`);
+});

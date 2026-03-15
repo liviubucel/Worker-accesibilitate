@@ -13,12 +13,6 @@ function withSecurityHeaders(response: Response): Response {
     const headers = new Headers(response.headers);
     Object.entries(SECURITY_HEADERS).forEach(([key, value]) => headers.set(key, value));
 
-    if (headers.get("content-type")?.includes("javascript")) {
-        headers.set("Cache-Control", "public, max-age=31536000, immutable");
-    } else {
-        headers.set("Cache-Control", "public, max-age=300");
-    }
-
     return new Response(response.body, {
         status: response.status,
         statusText: response.statusText,
@@ -39,6 +33,26 @@ export default {
         }
 
         const response = await env.ASSETS.fetch(request);
-        return withSecurityHeaders(response);
+        const securedResponse = withSecurityHeaders(response);
+        const headers = new Headers(securedResponse.headers);
+
+        if (
+            url.pathname === "/zbt-loader.js" ||
+            url.pathname === "/loader.js" ||
+            url.pathname === "/dist/zbt.min.js" ||
+            url.pathname === "/assets/zbt-accessibility.umd.js"
+        ) {
+            headers.set("Cache-Control", "public, max-age=300, stale-while-revalidate=86400");
+        } else if (headers.get("content-type")?.includes("javascript")) {
+            headers.set("Cache-Control", "public, max-age=31536000, immutable");
+        } else {
+            headers.set("Cache-Control", "public, max-age=300");
+        }
+
+        return new Response(securedResponse.body, {
+            status: securedResponse.status,
+            statusText: securedResponse.statusText,
+            headers
+        });
     }
 };
